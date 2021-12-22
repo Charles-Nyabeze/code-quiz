@@ -10,8 +10,10 @@
     <title>Quiz App</title>
 </head>
 <body>
+
     <div class=container>
         <setion>
+            <h1 class="welcome" id="welcome-txt">Welcome, let's play!</h1>
             <div class="timer">
                 <h4>00:00</h4>
             </div>
@@ -28,8 +30,30 @@
             <div class="controls">
                 <button id="start-btn" class="start-btn btn">Start</button>
                 <button id="next-btn" class="next-btn btn hide">Next</button>
+                <button id="high-btn" class="high-btn btn" >View High Scores</button>
             </div>
-        
+
+        <!--newnew-->
+
+        <section id="final">
+            <h2>All done!</h2>
+                <p>Your final score is: <span id="score">0</span></p>
+                    <!-- <p class="score">Your final score is: </p> -->
+                <p>Enter initials: <input placeholder="initials" id="initials" />
+                    <button id="submit-score" class="btn btn-correct">Submit</button>
+                </p>
+        </section>
+
+        <!-- Section for High Scores -->
+        <section id="highscores">
+            <h2>High Scores</h2>
+                <ol id="score-list">
+                </ol>
+                <button id="goback" class="btn btn-correct">Go back</button>
+                <button id="clearscores" class="btn btn-correct">Clear scores</button>
+        </section>
+
+
     </div>
 </body>
 </html>

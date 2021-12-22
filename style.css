@@ -52,11 +52,15 @@ body.wrong{
     border-radius: 5px;
     padding: 5px 10px;
     outline: none;
-    color:white;    
+    color:white;   
 }
 
 .btn:hover{
     border-color: black;
+    cursor: pointer;
+    box-shadow: 0 0.4rem 1.4rem 0 blue;
+    transition: transform 150ms;
+    transform: scale(1.03);
 }
 
 .btn.correct{
@@ -68,10 +72,11 @@ body.wrong{
  --color: var(--color-wrong);
 }
 
-.start-btn, .next-btn{
+.start-btn, .next-btn, .high-btn{
     font-size: 1.5rem;
     font-weight: bolder;
     padding: 10px 20px;
+    margin: 10px;
 
 }
 
@@ -90,4 +95,20 @@ body.wrong{
     top: -10px;
     right:10px;
 
+}
+
+.welcome{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.high-btn{
+    background-color: rgba(255, 0, 0, 0.603);
+}
+
+.high-btn:hover{
+    box-shadow: 0 0.4rem 1.4rem 0 rgb(255, 251, 0);
+    transition: transform 150ms;
+    transform: scale(1.03);
 }

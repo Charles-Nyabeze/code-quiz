@@ -1,141 +1,241 @@
-const startButton = document.getElementById('start-btn')
-const nextButton = document.getElementById('next-btn')
-const questionContainerElement = document.getElementById('question-container')
-const questionElement = document.getElementById('question')
-const answerButtonsElement = document.getElementById('answer-buttons')
+// variables for page elements
+// time and score
+let timeEl = document.querySelector("p.time");
+let secondsLeft = 75;
+let scoreEl = document.querySelector("#score");
 
-let shuffledQuestions, currentQuestionIndex
+// sections
+// section intro
+const introEl = document.querySelector("#intro");
 
-startButton.addEventListener('click', startGame)
-nextButton.addEventListener('click', () => {
-  currentQuestionIndex++
-  setNextQuestion()
-})
+// section questions
+//question section
+const questionsEl = document.querySelector("#questions");
+//where question goes
+let questionEl = document.querySelector("#question");
+// how many questions they have answered
+let questionCount = 0;
+// div yaynay
+const yaynayEl = document.querySelector("#yaynay");
 
-function startGame() {
-    startButton.classList.add('hide')
-    shuffledQuestions = questions.sort(() => Math.random() - .5)
-    currentQuestionIndex = 0
-    questionContainerElement.classList.remove('hide')
-    setNextQuestion()
-  }
+// section final
+const finalEl = document.querySelector("#final");
+// user initials
+let initialsInput = document.querySelector("#initials");
 
-function setNextQuestion() {
-    resetState()
-    showQuestion(shuffledQuestions [currentQuestionIndex])
+// section highscores
+const highscoresEl = document.querySelector("#highscores");
+// ordered list
+let scoreListEl = document.querySelector("#score-list");
+// array of scores
+let scoreList = [];
 
+// buttons
+// start
+const startBtn = document.querySelector("#start");
+// answer button class
+const ansBtn = document.querySelectorAll("button.ansBtn")
+// answer1
+const ans1Btn = document.querySelector("#answer1");
+// answer2
+const ans2Btn = document.querySelector("#answer2");
+// answer3
+const ans3Btn = document.querySelector("#answer3");
+// answer4
+const ans4Btn = document.querySelector("#answer4");
+// submit-score
+const submitScrBtn = document.querySelector("#submit-score");
+// goback
+const goBackBtn = document.querySelector("#goback");
+// clearscores
+const clearScrBtn = document.querySelector("#clearscores");
+// view-scores
+const highButton = document.querySelector("#high-btn");
+
+// Object for question, answer, true/false
+const questions = [ // array of objects
+    {
+        // question 0
+        question: "Commonly used data types do NOT include:",
+        answers: ["1. strings", "2. booleans", "3. alerts", "4. numbers"],
+        correctAnswer: "2"
+    },
+    {
+        // question 1
+        question: "The condition in an if / else statement is enclosed within ____.",
+        answers: ["1. quotes", "2. curly brackets", "3. parentheses", "4. square brackets"],
+        correctAnswer: "1"
+    },
+    {
+        // question 2
+        question: "Arrays in Javascript can be used to store ____.",
+        answers: ["1. numbers and strings", "2. other arrays", "3. booleans", "4. all of the above"],
+        correctAnswer: "3"
+    },
+    {
+        // question 3
+        question: "String values must be enclosed within ____ when being assigned to variables.",
+        answers: ["1. commmas", "2. curly brackets", "3. quotes", "4. parentheses"],
+        correctAnswer: "2"
+    },
+    {
+        // question 4
+        question: "A very useful tool used during development and debugging for printing content to the debugger is:",
+        answers: ["1. Javascript", "2. terminal/bash", "3. for loops", "4. console.log"],
+        correctAnswer: "3"
+    }
+];
+
+
+// Functions
+
+// timer
+function setTime() {
+    let timerInterval = setInterval(function () {
+        secondsLeft--;
+        timeEl.textContent = `Time:${secondsLeft}s`;
+
+        if (secondsLeft === 0 || questionCount === questions.length) {
+            clearInterval(timerInterval);
+            questionsEl.style.display = "none";
+            finalEl.style.display = "block";
+            scoreEl.textContent = secondsLeft;
+        }
+    }, 1000);
 }
 
-function showQuestion(question){
-    questionElement.innerText = question.question
-    question.answers.forEach(answer => {
-    const button = document.createElement('button')
-    button.innerText = answer.text
-    button.classList.add('btn')
-    if (answer.correct) {
-      button.dataset.correct = answer.correct
-    }
-    button.addEventListener('click', selectAnswer)
-    answerButtonsElement.appendChild(button)
-  })
+// start quiz with timer and set up questions
+function startQuiz() {
+    introEl.style.display = "none";
+    questionsEl.style.display = "block";
+    questionCount = 0;
+
+    setTime();
+    setQuestion(questionCount);
 }
 
-function resetState() {
-    clearStatusClass(document.body)
-    nextButton.classList.add('hide')
-    while (answerButtonsElement.firstChild) {
-      answerButtonsElement.removeChild(answerButtonsElement.firstChild)
+// function to set question; takes in a count and displays the next question/answers
+function setQuestion(id) {
+    if (id < questions.length) {
+        questionEl.textContent = questions[id].question;
+        ans1Btn.textContent = questions[id].answers[0];
+        ans2Btn.textContent = questions[id].answers[1];
+        ans3Btn.textContent = questions[id].answers[2];
+        ans4Btn.textContent = questions[id].answers[3];
     }
-  }
+}
 
-function selectAnswer(e) {
-    const selectedButton = e.target
-    const correct = selectedButton.dataset.correct
-    setStatusClass(document.body, correct)
-    Array.from(answerButtonsElement.children).forEach(button => {
-      setStatusClass(button, button.dataset.correct)
-    })
-    if (shuffledQuestions.length > currentQuestionIndex + 1) {
-      nextButton.classList.remove('hide')
+// function to check answer and then move to next question
+function checkAnswer(event) {
+    event.preventDefault();
+
+    // show section for yaynay and append message
+    yaynayEl.style.display = "block";
+    let p = document.createElement("p");
+    yaynayEl.appendChild(p);
+
+    // time out after 1 second
+    setTimeout(function () {
+        p.style.display = 'none';
+    }, 1000);
+
+    // answer checker
+    if (questions[questionCount].correctAnswer === event.target.value) {
+        p.textContent = "Correct!";
+    } else if (questions[questionCount].correctAnswer !== event.target.value) {
+        secondsLeft = secondsLeft - 10;
+        p.textContent = "Wrong!";
+    }
+
+    // increment so the questions index is increased
+    if (questionCount < questions.length) {
+        questionCount++;
+    }
+    // call setQuestion to bring in next question when any ansBtn is clicked
+    setQuestion(questionCount);
+}
+
+function addScore(event) {
+    event.preventDefault();
+
+    finalEl.style.display = "none";
+    highscoresEl.style.display = "block";
+
+    let init = initialsInput.value.toUpperCase();
+    scoreList.push({ initials: init, score: secondsLeft });
+
+    // sort scores
+    scoreList = scoreList.sort((a, b) => {
+        if (a.score < b.score) {
+          return 1;
+        } else {
+          return -1;
+        }
+      });
+    
+    scoreListEl.innerHTML="";
+    for (let i = 0; i < scoreList.length; i++) {
+        let li = document.createElement("li");
+        li.textContent = `${scoreList[i].initials}: ${scoreList[i].score}`;
+        scoreListEl.append(li);
+    }
+
+    // Add to local storage
+    storeScores();
+    displayScores();
+}
+
+function storeScores() {
+    localStorage.setItem("scoreList", JSON.stringify(scoreList));
+}
+
+function displayScores() {
+    // Get stored scores from localStorage
+    // Parsing the JSON string to an object
+    let storedScoreList = JSON.parse(localStorage.getItem("scoreList"));
+
+    // If scores were retrieved from localStorage, update the scorelist array to it
+    if (storedScoreList !== null) {
+        scoreList = storedScoreList;
+    }
+}
+
+// clear scores
+function clearScores() {
+    localStorage.clear();
+    scoreListEl.innerHTML="";
+}
+
+// EventListeners
+// Start timer and display first question when click start quiz
+startBtn.addEventListener("click", startQuiz);
+
+// Check answers loop
+ansBtn.forEach(item => {
+    item.addEventListener('click', checkAnswer);
+});
+
+// Add score
+submitScrBtn.addEventListener("click", addScore);
+
+// Go Back Button
+goBackBtn.addEventListener("click", function () {
+    highscoresEl.style.display = "none";
+    introEl.style.display = "block";
+    secondsLeft = 75;
+    timeEl.textContent = `Time:${secondsLeft}s`;
+});
+
+// Clear the scores
+clearScrBtn.addEventListener("click", clearScores);
+
+// View/Hide High Scores Button
+viewScrBtn.addEventListener("click", function () {
+    if (highscoresEl.style.display === "none") {
+        highscoresEl.style.display = "block";
+    } else if (highscoresEl.style.display === "block") {
+        highscoresEl.style.display = "none";
     } else {
-      startButton.innerText = 'Restart'
-      startButton.classList.remove('hide')
+        return alert("No scores to show.");
     }
-  }
-
-function setStatusClass(element, correct) {
-    clearStatusClass(element)
-    if (correct) {
-      element.classList.add('correct')
-    } else {
-      element.classList.add('wrong')
-    }
-  }
-  
-function clearStatusClass(element) {
-    element.classList.remove('correct')
-    element.classList.remove('wrong')
-  }
-
-const questions = [
-    {
-      question: 'What is 2 + 2?',
-      answers: [
-        { text: '4', correct: true },
-        { text: '22', correct: false }
-      ]
-    },
-    {
-      question: 'Who is the best YouTuber?',
-      answers: [
-        { text: 'Web Dev Simplified', correct: true },
-        { text: 'Traversy Media', correct: true },
-        { text: 'Dev Ed', correct: true },
-        { text: 'Fun Fun Function', correct: true }
-      ]
-    },
-    {
-      question: 'Is web development fun?',
-      answers: [
-        { text: 'Kinda', correct: false },
-        { text: 'YES!!!', correct: true },
-        { text: 'Um no', correct: false },
-        { text: 'IDK', correct: false }
-      ]
-    },
-    {
-      question: 'What is 4 * 2?',
-      answers: [
-        { text: '6', correct: false },
-        { text: '8', correct: true }
-      ]
-    }
-  ]
-
-  let timeSecond = 3;
-  const timeH = document.querySelector("h4");
-  
-  displayTime(timeSecond);
-  
-  const countDown = setInterval(() => {
-    timeSecond--;
-    displayTime(timeSecond);
-    if (timeSecond == 0 || timeSecond < 1) {
-      endCount();
-      clearInterval(countDown);
-    }
-  }, 1000);
-  
-  function displayTime(second) {
-    const min = Math.floor(second / 60);
-    const sec = Math.floor(second % 60);
-    timeH.innerHTML = `
-    ${min < 10 ? "0" : ""}${min}:${sec < 10 ? "0" : ""}${sec}
-    `;
-  }
-  
-  function endCount() {
-    timeH.innerHTML = "Time Out Try Again";
-  }
-  
-  
+});
