@@ -4,11 +4,16 @@ const progressText = document.querySelector('#progressText');
 const scoreText = document.querySelector('#score');
 const progressBarFull = document.querySelector('#progressBarFull');
 
+const time_line = document.querySelector(".time_line");
+const timeText = document.querySelector(".timer .time_left_txt");
+const timeCount = document.querySelector(".timer .timer_sec");
+
 let currentQuestion = {}
 let acceptingAnswers = true
 let score = 0
 let questionCounter = 0
 let availableQuestions = []
+let timeValue =  15;
 
 let questions = [
     {
@@ -111,3 +116,29 @@ incrementScore = num => {
 }
 
 startGame()
+
+let timeSecond = 90;
+const timeH = document.querySelector('#tss');
+
+displayTime(timeSecond);
+
+const countDown = setInterval(() => {
+  timeSecond--;
+  displayTime(timeSecond);
+  if (timeSecond == 0 || timeSecond < 1) {
+    endCount();
+    clearInterval(countDown);
+  }
+}, 1000);
+
+function displayTime(second) {
+  const min = Math.floor(second / 60);
+  const sec = Math.floor(second % 60);
+  timeH.innerHTML = `
+  ${min < 10 ? "0" : ""}${min}:${sec < 10 ? "0" : ""}${sec}
+  `;
+}
+
+function endCount() {
+  timeH.innerHTML = "Time out";
+}
