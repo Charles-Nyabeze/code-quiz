@@ -13,7 +13,7 @@
 
 h1{
     font-size: 5.4rem;
-    color:white;
+    color:gold;
     margin-bottom: 5rem;
 }
 
@@ -31,6 +31,22 @@ h2{
     margin:0 auto;
     padding:2rem;
     max-width: 80rem;
+}
+
+.play{
+    animation: backInLeft; 
+    animation-duration: 3s;
+}
+
+.hsb{
+    animation: backInRight; 
+    animation-duration: 2s;
+    
+}
+
+.starting-text {
+    animation: heartBeat; 
+    animation-duration: 5s;
 }
 
 .flex-column{
@@ -114,10 +130,4 @@ input::placeholder {
 
 #saveScoreBtn {
     border: none;
-}
-
-.fa-home {
-    margin-left: 1rem;
-    font-size: 2rem;
-    color: rgb(28, 26, 26)
 }
