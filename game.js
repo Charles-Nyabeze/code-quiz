@@ -17,37 +17,36 @@ let timeValue =  15;
 
 let questions = [
     {
-        question: 'What is 2 + 2?',
-        choice1: '2',
-        choice2: '4',
-        choice3: '21',
-        choice4: '17',
+        question: 'Inside which HTML element do we put the JavaScript?',
+        choice1: '<java>',
+        choice2: '<js>',
+        choice3: '<scriptfile>',
+        choice4: '<script>',
+        answer: 4,
+    },
+    {
+        question: "Where is the correct place to insert a JavaScript??",
+        choice1: "The <header> section",
+        choice2: "The <head> section",
+        choice3: "The <html> section",
+        choice4: "The <footer> section",
         answer: 2,
     },
     {
-        question:
-            "The tallest building in the world is located in which city?",
-        choice1: "Dubai",
-        choice2: "New York",
-        choice3: "Shanghai",
-        choice4: "None of the above",
-        answer: 1,
-    },
-    {
-        question: "What percent of American adults believe that chocolate milk comes from brown cows?",
-        choice1: "20%",
-        choice2: "18%",
-        choice3: "7%",
-        choice4: "33%",
+        question: "What is the correct syntax for referring to an external script?",
+        choice1: "<script name = 'xxx.js'>",
+        choice2: "<script file = 'xxx.js'>",
+        choice3: "<script scr = 'xxx.js'>",
+        choice4: "<script href = 'xxx.js'>",
         answer: 3,
     },
     {
-        question: "Approximately what percent of U.S. power outages are caused by squirrels?",
-        choice1: "10-20%",
-        choice2: "5-10%",
-        choice3: "15-20%",
-        choice4: "30%-40%",
-        answer: 1,
+        question: "How do you write 'Hello World' in an alert box?",
+        choice1: "msgBox'Hello World'",
+        choice2: "alertBox'Hello World'",
+        choice3: "alert'Hello World'",
+        choice4: "msg'Hello World'",
+        answer: 2,
     }
 ]
 
