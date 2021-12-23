@@ -28,7 +28,7 @@ let questions = [
         question: "Where is the correct place to insert a JavaScript??",
         choice1: "The <header> section",
         choice2: "The <head> section",
-        choice3: "The <html> section",
+        choice3: "The <body> section",
         choice4: "The <footer> section",
         answer: 2,
     },
